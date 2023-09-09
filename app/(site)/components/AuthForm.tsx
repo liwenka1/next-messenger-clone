@@ -1,104 +1,104 @@
-"use client";
+'use client'
 
-import axios from "axios";
-import Button from "@/app/components/Button";
-import Input from "@/app/components/inputs/Input";
-import { useState, useCallback, useEffect } from "react";
-import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
-import { BsGithub, BsGoogle } from "react-icons/bs";
-import AuthSocialButton from "./AuthSocialButton";
-import { toast } from "react-hot-toast";
-import { signIn, useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import axios from 'axios'
+import Button from '@/app/components/Button'
+import Input from '@/app/components/inputs/Input'
+import { useState, useCallback, useEffect } from 'react'
+import { useForm, FieldValues, SubmitHandler } from 'react-hook-form'
+import { BsGithub, BsGoogle } from 'react-icons/bs'
+import AuthSocialButton from './AuthSocialButton'
+import { toast } from 'react-hot-toast'
+import { signIn, useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 
-type Variant = "LOGIN" | "REGISTER";
+type Variant = 'LOGIN' | 'REGISTER'
 
 const AuthForm = () => {
-  const session = useSession();
-  const router = useRouter();
-  const [variant, setVariant] = useState<Variant>("LOGIN");
-  const [isLoading, setIsLoading] = useState(false);
+  const session = useSession()
+  const router = useRouter()
+  const [variant, setVariant] = useState<Variant>('LOGIN')
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
-    if (session?.status === "authenticated") {
-      router.push("/users");
+    if (session?.status === 'authenticated') {
+      router.push('/users')
     }
-  }, [session?.status, router]);
+  }, [session?.status, router])
 
   const toggleVariant = useCallback(() => {
-    if (variant === "LOGIN") {
-      setVariant("REGISTER");
+    if (variant === 'LOGIN') {
+      setVariant('REGISTER')
     } else {
-      setVariant("LOGIN");
+      setVariant('LOGIN')
     }
-  }, [variant]);
+  }, [variant])
 
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors }
   } = useForm<FieldValues>({
     defaultValues: {
-      name: "",
-      email: "",
-      password: "",
-    },
-  });
+      name: '',
+      email: '',
+      password: ''
+    }
+  })
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    setIsLoading(true);
+    setIsLoading(true)
 
-    if (variant === "REGISTER") {
+    if (variant === 'REGISTER') {
       // Axios Register
       axios
-        .post("/api/register", data)
-        .then(() => signIn("credentials", data))
-        .catch(() => toast.error("Something went wrong"))
-        .finally(() => setIsLoading(false));
+        .post('/api/register', data)
+        .then(() => signIn('credentials', data))
+        .catch(() => toast.error('Something went wrong'))
+        .finally(() => setIsLoading(false))
     }
 
-    if (variant === "LOGIN") {
+    if (variant === 'LOGIN') {
       // NextAuth Sign
-      signIn("credentials", {
+      signIn('credentials', {
         ...data,
-        redirect: false,
+        redirect: false
       })
         .then((callback) => {
           if (callback?.error) {
-            toast.error("Invalid credentials");
+            toast.error('Invalid credentials')
           }
 
           if (callback?.ok && !callback?.error) {
-            toast.success("Logged in!");
-            router.push("/users");
+            toast.success('Logged in!')
+            router.push('/users')
           }
         })
-        .finally(() => setIsLoading(false));
+        .finally(() => setIsLoading(false))
     }
-  };
+  }
 
   const socialAction = (action: string) => {
-    setIsLoading(true);
+    setIsLoading(true)
 
     // NextAuth Social Sign In
     signIn(action, { redirect: false })
       .then((callback) => {
         if (callback?.error) {
-          toast.error("Invalid credentials");
+          toast.error('Invalid credentials')
         }
 
         if (callback?.ok && !callback?.error) {
-          toast.success("Logged in!");
+          toast.success('Logged in!')
         }
       })
-      .finally(() => setIsLoading(false));
-  };
+      .finally(() => setIsLoading(false))
+  }
 
   return (
     <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
       <div className="bg-white px-4 py-8 shadow sm:rounded-lg sm:px-10">
         <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
-          {variant === "REGISTER" && (
+          {variant === 'REGISTER' && (
             <Input
               id="name"
               label="Name"
@@ -125,7 +125,7 @@ const AuthForm = () => {
           />
           <div>
             <Button disabled={isLoading} fullWidth type="submit">
-              {variant === "LOGIN" ? "Sign in" : "Register"}
+              {variant === 'LOGIN' ? 'Sign in' : 'Register'}
             </Button>
           </div>
         </form>
@@ -143,27 +143,27 @@ const AuthForm = () => {
           <div className="mt-6 flex gap-2">
             <AuthSocialButton
               icon={BsGithub}
-              onClick={() => socialAction("github")}
+              onClick={() => socialAction('github')}
             />
             <AuthSocialButton
               icon={BsGoogle}
-              onClick={() => socialAction("google")}
+              onClick={() => socialAction('google')}
             />
           </div>
         </div>
         <div className="flex gap-2 justify-center text-sm mt-6 px-2 text-gary-500">
           <div>
-            {variant === "LOGIN"
-              ? "New to Messenger"
-              : "Alreacy have an account?"}
+            {variant === 'LOGIN'
+              ? 'New to Messenger'
+              : 'Alreacy have an account?'}
           </div>
           <div onClick={toggleVariant} className="underline cursor-pointer">
-            {variant === "LOGIN" ? "Create an account" : "Login"}
+            {variant === 'LOGIN' ? 'Create an account' : 'Login'}
           </div>
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default AuthForm;
+export default AuthForm

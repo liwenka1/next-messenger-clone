@@ -7,7 +7,7 @@ const EmptyState = () => {
         </h3>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default EmptyState;
+export default EmptyState
