@@ -24,7 +24,7 @@ export const authOptions: AuthOptions = {
         email: { label: 'email', type: 'text' },
         password: { label: 'password', type: 'password' }
       },
-      async authorize(credentials, req) {
+      async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
           throw new Error('Invalid credentials')
         }
@@ -56,7 +56,7 @@ export const authOptions: AuthOptions = {
   session: {
     strategy: 'jwt'
   },
-  secret: process.env.NEXTAUTH_URL
+  secret: process.env.NEXTAUTH_SECRET
 }
 
 const handler = NextAuth(authOptions)
