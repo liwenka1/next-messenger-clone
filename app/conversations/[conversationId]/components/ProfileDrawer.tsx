@@ -9,6 +9,7 @@ import { IoClose, IoTrash } from 'react-icons/io5'
 import AvatarGroup from '@/app/components/AvatarGroup'
 import Avatar from '@/app/components/Avatar'
 import ConfirmModal from './ConfirmModal'
+import useActiveList from '@/app/hooks/useActiveList'
 
 interface ProfileDrawerProps {
   isOpen: boolean
@@ -34,13 +35,16 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
     return data.name || otherUser.name
   }, [data.name, otherUser.name])
 
+  const { members } = useActiveList()
+  const isActive = members.indexOf(otherUser?.email!) !== -1
+
   const statusText = useMemo(() => {
     if (data.isGroup) {
       return `${data.users.length} members`
     }
 
-    return 'Active'
-  }, [])
+    return isActive ? 'Active' : 'Offline'
+  }, [data, isActive])
   return (
     <>
       <ConfirmModal
@@ -57,11 +61,13 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
             leave="ease-in duration-500"
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
-          ></Transition.Child>
+          >
+            <div className="fixed inset-0 bg-black bg-opacity-40" />
+          </Transition.Child>
 
           <div className="fixed inset-0 overflow-hidden">
             <div className="absolute inset-0 overflow-hidden">
-              <div className="fixed pointer-events-none inset-y-0 right-0 flex max-w-full left-10">
+              <div className="fixed pointer-events-none inset-y-0 right-0 flex max-w-full pl-10">
                 <Transition.Child
                   as={Fragment}
                   enter="ease-in-out duration-500 transform transition"
