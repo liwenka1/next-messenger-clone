@@ -1,7 +1,7 @@
 'use client'
 
 import Button from '@/app/components/Button'
-import Model from '@/app/components/Model'
+import Modal from '@/app/components/Modal'
 import useConversation from '@/app/hooks/useConversation'
 import { Dialog } from '@headlessui/react'
 import axios from 'axios'
@@ -34,7 +34,7 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({ isOpen, onClose }) => {
       .finally(() => setIsLoading(false))
   }, [])
   return (
-    <Model isOpen={isOpen} onClosd={onClose}>
+    <Modal isOpen={isOpen} onClose={onClose}>
       <div className="sm:flex sm:items-center">
         <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
           <FiAlertTriangle
@@ -65,7 +65,7 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({ isOpen, onClose }) => {
           Cancel
         </Button>
       </div>
-    </Model>
+    </Modal>
   )
 }
 
