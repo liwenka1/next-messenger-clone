@@ -1,34 +1,61 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Messenger Clone: Next.js 13, React, Tailwind, Prisma, MongoDB, NextAuth, Pusher
 
-## Getting Started
+这是我通过学习课程所练习的一个 Next.js 项目，这个项目对 Messenger 进行了 Clone，通过该项目我学到了很多，如果你和我一样对 Next.js 感兴趣，不妨也试着学习一下
 
-First, run the development server:
+## 教程链接
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+[VIDEO TUTORIAL](https://www.youtube.com/watch?v=PGPGcKBpAk8)
+
+## 预览地址
+
+[Messenger Clone](https://message.liwenkai.asia/)
+
+## 本地启动
+
+### 环境要求
+
+**Node version 14.x**
+
+### 克隆项目
+
+```shell
+git clone https://github.com/liwenka1/next-messenger-clone.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 安装依赖
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```shell
+pnpm i
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### 创建 .env 文件（同我所创建的 .env.example 一样即可）
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+```js
+DATABASE_URL=
+NEXTAUTH_SECRET=
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+NEXT_PUBLIC_PUSHER_APP_KEY=
+PUSHER_APP_ID=
+PUSHER_SECRET=
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=
 
-## Deploy on Vercel
+GITHUB_ID=
+GITHUB_SECRET=
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### 利用 Prisma 同步数据库
+
+```shell
+npx prisma db push
+```
+
+### 启动项目
+
+```shell
+pnpm run dev
+```
